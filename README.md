@@ -4,21 +4,27 @@
 
 <div align="center">
 
-# 🎙️ Project Beatrice V2
+# 🎙️ Project Beatrice V2 (macOS)
 
 ### Real-Time AI Voice Changer for macOS
 
-[![Version](https://img.shields.io/badge/version-2.0.0-brightgreen?style=for-the-badge)](https://github.com/satiricalguru/Beatrice-voicechanger/releases/tag/v2.0.0)
-[![macOS](https://img.shields.io/badge/macOS-12%2B-black?style=for-the-badge&logo=apple&logoColor=white)](https://github.com/satiricalguru/Beatrice-voicechanger/releases)
-[![Electron](https://img.shields.io/badge/Electron-30-47848F?style=for-the-badge&logo=electron&logoColor=white)](https://www.electronjs.org/)
-[![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![GitHub Stars](https://img.shields.io/github/stars/satiricalguru/Beatrice-voicechanger-mac?style=for-the-badge&color=ffd700&logo=github)](https://github.com/satiricalguru/Beatrice-voicechanger-mac/stargazers)
+[![Version](https://img.shields.io/badge/version-2.0.0-brightgreen?style=for-the-badge)](https://github.com/satiricalguru/Beatrice-voicechanger-mac/releases/tag/v2.0.0)
+[![macOS](https://img.shields.io/badge/macOS-12%2B-black?style=for-the-badge&logo=apple&logoColor=white)](https://github.com/satiricalguru/Beatrice-voicechanger-mac)
+[![Website](https://img.shields.io/badge/Website-project--beatrice--v2.github.io-6366f1?style=for-the-badge&logo=googlechrome&logoColor=white)](https://project-beatrice-v2.github.io/Beatrice-website/)
+[![Latency](https://img.shields.io/badge/Latency-~10ms%20Ultra--Low-brightgreen?style=for-the-badge)](https://github.com/satiricalguru/Beatrice-voicechanger-mac)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
 
 **Morph your voice in real-time** with AI-powered neural voice conversion — powered by the Beatrice 2.0.0 DSP engine, achieving sub-10ms latency across 112+ built-in voices.
 
-[📥 Download v2.0.0](https://github.com/satiricalguru/Beatrice-voicechanger/releases/tag/v2.0.0) · [🪟 Windows Version](https://github.com/satiricalguru/BeatriceVST-voicechanger.git) · [🐛 Report Bug](https://github.com/satiricalguru/Beatrice-voicechanger/issues)
+[📥 Download macOS v2.0.0](https://github.com/satiricalguru/Beatrice-voicechanger-mac/releases/tag/v2.0.0) · [🪟 Switch to Windows Version](https://github.com/satiricalguru/Beatrice-voicechanger-windows) · [🌐 Official Website](https://project-beatrice-v2.github.io/Beatrice-website/) · [🐛 Report Bug](https://github.com/satiricalguru/Beatrice-voicechanger-mac/issues)
 
 </div>
+
+> ### 🌐 Multi-Platform & Official Resources
+> - 🍎 **macOS Version:** **[Beatrice-voicechanger-mac](https://github.com/satiricalguru/Beatrice-voicechanger-mac)** *(This repository — Apple Silicon & Intel)*
+> - 🪟 **Windows Version:** **[Beatrice-voicechanger-windows](https://github.com/satiricalguru/Beatrice-voicechanger-windows)** *(64-bit Windows installer & portable ZIP)*
+> - 🌍 **Official Beatrice Website:** **[project-beatrice-v2.github.io/Beatrice-website](https://project-beatrice-v2.github.io/Beatrice-website/)**
 
 ---
 
@@ -125,7 +131,7 @@
 
 ### Option A — Download the DMG (Recommended)
 
-Download the pre-built installer for your Mac from the [Releases page](https://github.com/satiricalguru/Beatrice-voicechanger/releases/tag/v2.0.0):
+Download the pre-built installer for your Mac from the [Releases page](https://github.com/satiricalguru/Beatrice-voicechanger-mac/releases/tag/v2.0.0):
 
 | Architecture | File |
 |---|---|
@@ -138,8 +144,8 @@ Download the pre-built installer for your Mac from the [Releases page](https://g
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/satiricalguru/Beatrice-voicechanger.git
-cd Beatrice-voicechanger
+git clone https://github.com/satiricalguru/Beatrice-voicechanger-mac.git
+cd Beatrice-voicechanger-mac
 
 # 2. Install Python audio dependencies
 pip3 install -r requirements.txt
@@ -286,7 +292,7 @@ Beatrice-voicechanger/
 | `numpy` | 1.24+ | DSP math |
 | `soundfile` | 0.12+ | Audio file decoding |
 
-> **Note:** The Beatrice VST3 library is a **macOS-only** signed binary. For Windows support, see the [BeatriceVST-voicechanger](https://github.com/satiricalguru/BeatriceVST-voicechanger) repository.
+> **Note:** The Beatrice VST3 library in this repo is a signed binary for macOS. For Windows 10/11 support, see the **[Beatrice-voicechanger-windows](https://github.com/satiricalguru/Beatrice-voicechanger-windows)** repository.
 
 ---
 
@@ -308,12 +314,22 @@ The Python backend exposes a local REST API on `http://127.0.0.1:5005`:
 
 ---
 
+## 🌐 Official Links & Community
+
+- 🌍 **Official Beatrice Website:** [project-beatrice-v2.github.io/Beatrice-website](https://project-beatrice-v2.github.io/Beatrice-website/)
+- 🍎 **macOS Repository:** [satiricalguru/Beatrice-voicechanger-mac](https://github.com/satiricalguru/Beatrice-voicechanger-mac)
+- 🪟 **Windows Repository:** [satiricalguru/Beatrice-voicechanger-windows](https://github.com/satiricalguru/Beatrice-voicechanger-windows)
+- 🔬 **Upstream Beatrice DSP Engine:** [prj-beatrice/beatrice-vst](https://github.com/prj-beatrice/beatrice-vst)
+
+---
+
 ## 🙏 Credits & Acknowledgements
 
 - 🔬 **Beatrice DSP Engine** — [prj-beatrice/beatrice-vst](https://github.com/prj-beatrice/beatrice-vst)
+- 🌐 **Project Beatrice Website** — [project-beatrice-v2.github.io/Beatrice-website](https://project-beatrice-v2.github.io/Beatrice-website/)
 - 🎙️ **Voice Changer Inspiration** — [w-okada/voice-changer](https://github.com/w-okada/voice-changer)
 - 🎌 **JVS Corpus** — [Shinnosuke Takamichi, UTokyo](https://sites.google.com/site/shinnosuketakamichi/research-topics/jvs_corpus) *(non-commercial use only)*
-- 💻 **Developed by** [Satirical Guru](https://github.com/satiricalguru) · Claude · Antigravity
+- 💻 **Maintained by** [Satirical Guru](https://github.com/satiricalguru)
 
 ---
 
@@ -331,6 +347,6 @@ The voice changer UI and Python backend are MIT-licensed. The Beatrice DSP engin
 
 **Built with ❤️ using** Electron · Python · Beatrice DSP · PortAudio · JVS Corpus
 
-⭐ If you enjoy Project Beatrice, please give it a star on GitHub!
+⭐ **Star [Beatrice-voicechanger-mac](https://github.com/satiricalguru/Beatrice-voicechanger-mac) on GitHub!**
 
 </div>

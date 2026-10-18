@@ -140,6 +140,19 @@ Download the pre-built installer for your Mac from the [Releases page](https://g
 
 > **First Launch on macOS:** If macOS blocks the app, go to **System Settings → Privacy & Security** and click **Open Anyway**.
 
+### ⚠️ Stuck on "Waiting for backend…" / "Connecting…"? (one-time setup)
+
+The voice engine runs on Python, which isn't bundled in the DMG yet. Open **Terminal** (⌘ Space → "Terminal") and run:
+
+```bash
+xcode-select --install                                     # click "Install" in the pop-up
+python3 -m pip install --user sounddevice numpy soundfile  # wait for "Successfully installed"
+```
+
+Then quit Beatrice with **⌘ Q** and reopen it. The bottom left should say **Backend connected**.
+
+🎬 **Step-by-step video (no coding needed):** [Download → Install → Setup → Use](docs/Beatrice-Mac-Setup-Guide.mp4) · 📄 [Written guide](docs/MAC_SETUP.md)
+
 ### Option B — Build from Source
 
 ```bash

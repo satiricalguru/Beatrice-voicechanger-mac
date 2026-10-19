@@ -131,27 +131,13 @@
 
 ### Option A — Download the DMG (Recommended)
 
-Download the pre-built installer for your Mac from the [Releases page](https://github.com/satiricalguru/Beatrice-voicechanger-mac/releases/tag/v2.0.0):
+Download **`Beatrice.Voice.Changer-2.1.0-arm64.dmg`** from the [latest release](https://github.com/satiricalguru/Beatrice-voicechanger-mac/releases/latest), open it, and drag **Beatrice Voice Changer** into **Applications**. That's it: Python and the audio packages are built into the app, so there's nothing else to install.
 
-| Architecture | File |
-|---|---|
-| 🍎 Apple Silicon (M1/M2/M3/M4) | `Beatrice.Voice.Changer-2.0.0-arm64.dmg` |
-| 💻 Intel Mac | `Beatrice.Voice.Changer-2.0.0.dmg` |
+> **Requires a Mac with Apple Silicon (M1/M2/M3/M4).** The Beatrice voice engine is only available for Apple Silicon, so Intel Macs aren't supported.
 
-> **First Launch on macOS:** If macOS blocks the app, go to **System Settings → Privacy & Security** and click **Open Anyway**.
+> **First launch:** If macOS says it can't verify the app, click **Done**, then go to **System Settings → Privacy & Security** and click **Open Anyway**. You only do this once.
 
-### ⚠️ Stuck on "Waiting for backend…" / "Connecting…"? (one-time setup)
-
-The voice engine runs on Python, which isn't bundled in the DMG yet. Open **Terminal** (⌘ Space → "Terminal") and run:
-
-```bash
-xcode-select --install                                     # click "Install" in the pop-up
-python3 -m pip install --user sounddevice numpy soundfile  # wait for "Successfully installed"
-```
-
-Then quit Beatrice with **⌘ Q** and reopen it. The bottom left should say **Backend connected**.
-
-🎬 **Step-by-step video (no coding needed):** [Download → Install → Setup → Use](docs/Beatrice-Mac-Setup-Guide.mp4) · 📄 [Written guide](docs/MAC_SETUP.md)
+> **Coming from v2.0.x and stuck on "Waiting for backend…"?** Just install v2.1.0. The Terminal steps from the old [setup guide](docs/MAC_SETUP.md) aren't needed anymore.
 
 ### Option B — Build from Source
 
@@ -298,9 +284,9 @@ Beatrice-voicechanger/
 
 | Dependency | Version | Purpose |
 |---|---|---|
-| **macOS** | 12 Monterey+ | Apple Silicon or Intel |
+| **macOS** | 12 Monterey+ | Apple Silicon (M1/M2/M3/M4) |
 | **Node.js** | 18+ | Electron shell |
-| **Python** | 3.9+ | Audio backend |
+| **Python** | 3.9+ | Audio backend (bundled in the DMG; only needed to build from source) |
 | `sounddevice` | 0.4.6+ | PortAudio I/O |
 | `numpy` | 1.24+ | DSP math |
 | `soundfile` | 0.12+ | Audio file decoding |

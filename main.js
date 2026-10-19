@@ -1,13 +1,15 @@
 'use strict';
 
-const { app, BrowserWindow, nativeImage, ipcMain, globalShortcut, session } = require('electron');
-const { spawn }              = require('child_process');
+const { app, BrowserWindow, nativeImage, ipcMain, globalShortcut, session, dialog, clipboard, shell } = require('electron');
+const { spawn, execFileSync } = require('child_process');
 const path                   = require('path');
+const fs                     = require('fs');
 
 const ICON_PATH = path.join(__dirname, 'icon.png');
 
 let mainWindow    = null;
 let pythonProcess = null;
+let appQuitting   = false;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -56,7 +58,6 @@ function startBackend() {
   // Writable user data folder setup
   const userDataPath = app.getPath('userData');
   const customModelsPath = path.join(userDataPath, 'custom_models');
-  const fs = require('fs');
   if (!fs.existsSync(customModelsPath)) {
     try {
       fs.mkdirSync(customModelsPath, { recursive: true });
@@ -85,43 +86,104 @@ function startBackend() {
     }
   }
 
-  // Pass writable custom models base path to Python backend
+  // Pass writable custom models base path to Python backend. The bundled
+  // runtime must not pick up packages or settings from a Python the user
+  // installed themselves.
   const env = Object.assign({}, process.env, {
-    BEATRICE_CUSTOM_MODELS_DIR: customModelsPath
+    BEATRICE_CUSTOM_MODELS_DIR: customModelsPath,
+    PYTHONNOUSERSITE: '1',
+    PYTHONDONTWRITEBYTECODE: '1',
   });
+  delete env.PYTHONHOME;
+  delete env.PYTHONPATH;
 
-  let spawnCmd = 'python3';
-  let spawnArgs = ['-u', scriptPath];
-
-  if (process.platform === 'darwin') {
-    try {
-      const { execSync } = require('child_process');
-      const isArm = execSync('sysctl -in hw.optional.arm64').toString().trim() === '1';
-      if (isArm) {
-        spawnCmd = 'arch';
-        spawnArgs = ['-arm64', 'python3', '-u', scriptPath];
-      }
-    } catch (e) {
-      console.error('[Beatrice] Failed to check for Apple Silicon:', e);
-    }
-  }
+  const { cmd: spawnCmd, args: pythonArgs } = resolvePython();
+  const spawnArgs = [...pythonArgs, '-u', scriptPath];
+  console.log('[Beatrice] Using Python:', spawnCmd, pythonArgs.join(' '));
 
   pythonProcess = spawn(spawnCmd, spawnArgs, {
     cwd: appDir,
     env: env
   });
 
+  // Keep the tail of the backend's error output so a crash can be shown to
+  // the user instead of the UI sitting on "Connecting…" forever.
+  let stderrTail = '';
+
   pythonProcess.stdout.on('data', data =>
     console.log('[Python]', data.toString().trimEnd()));
 
-  pythonProcess.stderr.on('data', data =>
-    console.error('[Python ERR]', data.toString().trimEnd()));
+  pythonProcess.stderr.on('data', data => {
+    const text = data.toString();
+    stderrTail = (stderrTail + text).slice(-4000);
+    console.error('[Python ERR]', text.trimEnd());
+  });
 
-  pythonProcess.on('error', err =>
-    console.error('[Beatrice] Failed to start Python backend:', err.message));
+  pythonProcess.on('error', err => {
+    console.error('[Beatrice] Failed to start Python backend:', err.message);
+    stderrTail += `\n${err.message}`;
+  });
 
-  pythonProcess.on('close', code =>
-    console.log('[Beatrice] Python backend exited with code', code));
+  pythonProcess.on('close', code => {
+    console.log('[Beatrice] Python backend exited with code', code);
+    pythonProcess = null;
+    if (!appQuitting && code !== 0) showBackendError(stderrTail);
+  });
+}
+
+function resolvePython() {
+  // Packaged builds ship their own Python runtime with the audio packages
+  // preinstalled (see scripts/bundle-python.sh), so users need nothing else.
+  const bundled = path.join(process.resourcesPath, 'python', 'bin', 'python3');
+  if (app.isPackaged && fs.existsSync(bundled)) {
+    clearQuarantine(path.join(process.resourcesPath, 'python'));
+    clearQuarantine(path.join(process.resourcesPath, 'app.asar.unpacked'));
+    return { cmd: bundled, args: [] };
+  }
+
+  // Development (`npm run dev`): use a system Python. Apps launched from
+  // Finder get a minimal PATH, so add the usual install locations too.
+  const extraPaths = [
+    '/opt/homebrew/bin',
+    '/usr/local/bin',
+    '/Library/Frameworks/Python.framework/Versions/Current/bin',
+  ];
+  process.env.PATH = [...extraPaths, process.env.PATH || '/usr/bin:/bin'].join(':');
+  if (process.platform === 'darwin' && process.arch === 'arm64') {
+    return { cmd: 'arch', args: ['-arm64', 'python3'] };
+  }
+  return { cmd: 'python3', args: [] };
+}
+
+function clearQuarantine(dir) {
+  // Files copied from a downloaded DMG carry the quarantine flag, which can
+  // stop the bundled Python and the voice engine from loading. The app owns
+  // these files, so clear it before starting the backend; failures are
+  // harmless (for example when running straight from the DMG).
+  if (process.platform !== 'darwin') return;
+  try {
+    execFileSync('/usr/bin/xattr', ['-dr', 'com.apple.quarantine', dir], { stdio: 'ignore', timeout: 10000 });
+  } catch (err) {
+    console.log('[Beatrice] Could not clear quarantine on', dir, '-', err.message);
+  }
+}
+
+function showBackendError(details) {
+  const message = 'The voice engine stopped unexpectedly.';
+  const detail = 'Please quit Beatrice (⌘Q) and open it again. If this keeps happening, '
+    + 'copy the details and open an issue on GitHub.\n\n'
+    + (details.trim().split('\n').slice(-8).join('\n') || 'No error output.');
+  dialog.showMessageBox(mainWindow || undefined, {
+    type: 'error',
+    message,
+    detail,
+    buttons: ['Copy Details', 'Report on GitHub', 'OK'],
+    defaultId: 2,
+    cancelId: 2,
+  }).then(({ response }) => {
+    if (response === 0) clipboard.writeText(`${message}\n\n${details}`);
+    if (response === 1) shell.openExternal('https://github.com/satiricalguru/Beatrice-voicechanger-mac/issues/new');
+  });
 }
 
 // ── App lifecycle ─────────────────────────────────────────────────────────────
@@ -155,6 +217,10 @@ app.whenReady().then(() => {
 app.on('window-all-closed', () => {
   // On macOS it is conventional to keep the process running
   if (process.platform !== 'darwin') app.quit();
+});
+
+app.on('before-quit', () => {
+  appQuitting = true;
 });
 
 app.on('will-quit', () => {

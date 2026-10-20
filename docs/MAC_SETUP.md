@@ -6,7 +6,7 @@ Beatrice needs a Mac with **Apple Silicon** (M1, M2, M3 or M4). To check, open t
 
 ## 2. Download and install
 
-1. Download **`Beatrice.Voice.Changer-2.1.0-arm64.dmg`** (or newer) from the [latest release](https://github.com/satiricalguru/Beatrice-voicechanger-mac/releases/latest).
+1. Download **`Beatrice.Voice.Changer-2.1.1-arm64.dmg`** (or newer) from the [latest release](https://github.com/satiricalguru/Beatrice-voicechanger-mac/releases/latest).
 2. Double-click the DMG and drag **Beatrice Voice Changer** onto **Applications**.
 3. Open it from Applications. If macOS says it can't verify the app, click **Done**, then go to **System Settings → Privacy & Security**, scroll to **Security**, and click **Open Anyway**. You only do this once.
 4. Click **Allow** when Beatrice asks to use your microphone.
@@ -26,7 +26,8 @@ Install [BlackHole 2ch](https://existential.audio/blackhole/). In Beatrice, set 
 
 ## Still stuck?
 
-- **Still on "Waiting for backend…" or "Connecting…"?** Make sure you're on **v2.1.0 or newer**. Older versions needed Terminal commands; you don't anymore. Quit with **⌘ Q** and reopen.
+- **Still on "Waiting for backend…" or "Connecting…"?** Make sure you're on **v2.1.1 or newer**. Older versions needed Terminal commands; you don't anymore. Quit with **⌘ Q** and reopen.
+- **macOS says Beatrice "is damaged and can't be opened"?** That was a bug in v2.1.0. Delete it and download **v2.1.1 or newer**, which opens normally with **Open Anyway**.
 - **Beatrice says "The voice engine stopped unexpectedly"?** Click **Copy Details**, then [open an issue](https://github.com/satiricalguru/Beatrice-voicechanger-mac/issues) and paste them in.
 
 🎬 The [setup video](Beatrice-Mac-Setup-Guide.mp4) was made for v2.0.2. The download, install and "using it" parts still apply, but you can skip its Terminal section on v2.1.0.

@@ -131,7 +131,7 @@
 
 ### Option A — Download the DMG (Recommended)
 
-Download **`Beatrice.Voice.Changer-2.1.0-arm64.dmg`** from the [latest release](https://github.com/satiricalguru/Beatrice-voicechanger-mac/releases/latest), open it, and drag **Beatrice Voice Changer** into **Applications**. That's it: Python and the audio packages are built into the app, so there's nothing else to install.
+Download **`Beatrice.Voice.Changer-2.1.1-arm64.dmg`** from the [latest release](https://github.com/satiricalguru/Beatrice-voicechanger-mac/releases/latest), open it, and drag **Beatrice Voice Changer** into **Applications**. That's it: Python and the audio packages are built into the app, so there's nothing else to install.
 
 > **Requires a Mac with Apple Silicon (M1/M2/M3/M4).** The Beatrice voice engine is only available for Apple Silicon, so Intel Macs aren't supported.
 
